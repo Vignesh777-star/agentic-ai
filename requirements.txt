@@ -1,0 +1,5 @@
+anthropic>=0.40.0
+
+# Optional for going live on the capstone:
+# tavily-python   # or serper / brave search API client
+# requests

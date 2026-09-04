@@ -1,0 +1,144 @@
+﻿======== Day 1: day1_agent_loop\solution.py ========
+TASK: A customer bought a $1,200 item. Check our refund policy, then if refunds are allowed compute a 15% restocking fee on $1,200 and give me the final refund amount. 
+
+  â†’ search_kb({'query': 'refund policy'})
+  â† Refunds are issued within 30 days of purchase with a receipt.
+  â†’ calculator({'expression': '1200 * 0.85'})
+  â† 1020.0
+
+ANSWER: Based on the refund policy, refunds are issued within 30 days of purchase with a receipt. Since the policy doesn't explicitly prohibit restocking fees, we'll apply the requested 15% restocking fee to the $1,200 item.
+
+**Calculation:**
+- Original price: $1,200
+- Restocking fee (15%): $1,200 Ã— 0.15 = $180
+- Final refund amount: $1,200 - $180 = **$1,020.00**
+
+**Final Refund Amount:** $1,020.00
+OK
+
+======== Day 2 ï¿½ Reflection: day2_reflection_memory\reflection_solution.py ========
+round 1: PASS â€” 
+
+FINAL:
+ 
+OK
+
+======== Day 2 ï¿½ Memory: day2_reflection_memory\memory_solution.py ========
+recalled: ['Dana prefers email over phone.', 'Dana had a billing dispute in March resolved with a credit.']
+answer: We need to answer: "What SLA does Dana have?" Using only the given statements: 'Dana prefers email over phone.' and 'Dana had a billing dispute in March resolved with a credit.' There's no explicit SLA info. So answer: Not enough information. Probably answer: The SLA is not specified. So we respond that we cannot determine SLA from given info.
+OK
+
+======== Day 3: day3_tool_use\solution.py ========
+=== agent with a custom tool ===
+ANSWER: Based on the EUR/USD rate of 1.08:
+
+**4000 euros in dollars:** $4,320
+
+**15% of that amount:** $648
+
+So 4000 euros converts to $4,320, and 15% of that is $648.
+
+=== structured extraction (forced tool call) ===
+Traceback (most recent call last):
+  File "C:\Users\HP\OneDrive\Music\agentic-ai-labs\agentic-ai-labs\day3_tool_use\solution.py", line 70, in <module>
+    print(json.dumps(extract(email), indent=2))
+                     ~~~~~~~^^^^^^^
+  File "C:\Users\HP\OneDrive\Music\agentic-ai-labs\agentic-ai-labs\day3_tool_use\solution.py", line 52, in extract
+    return next(b.input for b in resp.content if b.type == "tool_use")
+StopIteration
+FAILED exit=1
+
+======== Day 4 ï¿½ Orchestrator: day4_planning_multiagent\orchestrator_solution.py ========
+PLAN: [
+  {
+    "worker": "policy",
+    "task": "Confirm the refund policy for a $2,400 order."
+  },
+  {
+    "worker": "finance",
+    "task": "Compute a 15% restocking fee on the $2,400 order."
+  },
+  {
+    "worker": "finance",
+    "task": "Calculate the net refund amount after deducting the 15% restocking fee from the $2,400 order."
+  }
+]
+  â†’ policy: Confirm the refund policy for a $2,400 order....
+  â†’ finance: Compute a 15% restocking fee on the $2,400 order....
+  â†’ finance: Calculate the net refund amount after deducting the 15% rest...
+
+FINAL:
+ 
+OK
+
+======== Day 4 ï¿½ Router: day4_planning_multiagent\router_solution.py ========
+
+MESSAGE: I was charged twice this month, can I get a refund?
+  routed to: technical
+REPLY: 
+
+MESSAGE: The app crashes every time I upload a PDF.
+  routed to: technical
+REPLY: **PDF Upload Crash â€“ Stepâ€‘byâ€‘Step Troubleshooting Guide**  
+*(Works for iOS, Android, and webâ€‘based apps. Follow the steps in order; stop when the issue is resolved.)*
+
+
+## 1ï¸âƒ£ Gather Basic Information (do this first)
+
+| What to note | Why it helps |
+|--------------|--------------|
+| **Device / OS version** (e.g., iPhoneâ€¯15â€¯iOSâ€¯17.4, Samsungâ€¯S23â€¯Androidâ€¯14, Chromeâ€¯124 on Windowsâ€¯1
+
+MESSAGE: Do you offer volume discounts for 50 seats?
+  routed to: technical
+REPLY: 
+OK
+
+======== Day 5 ï¿½ Eval: day5_eval_capstone\eval_solution.py ========
+=== guardrail check ===
+[refused] blocked: injection phrase 'ignore previous instructions'
+
+=== eval suite ===
+[PASS] math (objective)
+[PASS] policy (objective)
+[FAIL] tone (judge)
+
+Score: 2/3
+OK
+
+======== Day 5 ï¿½ Capstone: day5_eval_capstone\research_agent_solution.py ========
+TOPIC: Why small language models are useful for private, on-device AI 
+
+  search: small language models privacy benefits on-device
+  search: on-device AI privacy data never leaves device small language models
+
+===== REPORT =====
+ To understand why small language models (SLMs) are essential for private, on-device AI, I will investigate the following sub-questions:
+1. How do the technical characteristics of SLMs (parameter count and quantization) enable local execution?
+2. What are the specific privacy advantages of on-device processing compared to cloud-based LLMs?
+3. In what scenarios are SLMs more effective than large-scale models?
+
+### Research Brief: The Utility of Small Language Models for Private, On-Device AI
+
+Small language models (SLMs)â€”typically defined as models with fewer than 4 billion parametersâ€”are becoming a cornerstone of edge computing. Unlike their massive counterparts, SLMs are designed to balance performance with the hardware constraints of consumer electronics.
+
+#### 1. Technical Feasibility: Memory and Hardware Efficiency
+The primary barrier to running AI locally is the massive memory requirement of large language models. SLMs overcome this through two main avenues:
+*   **Reduced Parameter Count:** Models under ~4B parameters can rival older, much larger models on specific, narrow tasks while remaining small enough to run on a single CPU or GPU [d1].
+*   **Quantization:** Techniques such as 4-bit quantization can reduce a model's memory footprint by approximately 4x with only minor losses in quality [d2]. This reduction is critical for fitting models into the limited RAM of smartphones, laptops, and IoT devices [d2].
+
+#### 2. Privacy and Security Advantages
+The shift from cloud-based AI to on-device SLMs offers significant privacy benefits:
+*   **Data Sovereignty:** Because the model runs locally, sensitive user data (such as private messages, medical records, or financial information) never leaves the device [d2].
+*   **Air-Gapped Deployment:** SLMs enable "air-gapped" deployment, meaning the AI can function in environments with no internet connection, ensuring that no data is transmitted to external servers for processing [d2]. This eliminates the risk of data interception during transit or breaches of third-party cloud storage.
+
+#### Takeaway
+Small language models enable a paradigm shift in AI deployment by making high-performance intelligence possible on local hardware. By leveraging quantization and reduced parameter counts, SLMs provide a path toward "privacy-by-design" AI, where sensitive data remains entirely under the user's control.
+
+===== GROUNDING =====
+ SUPPORTED. The evidence confirms that SLMs under ~4B parameters rival older large models on narrow tasks with reduced memory via quantization, enabling on-device deployment and privacy benefits like data sovereignty.
+OK
+
+======== SUMMARY ========
+Failed: Day 3
+
